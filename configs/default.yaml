@@ -1,0 +1,33 @@
+# Forecast Engine default configuration
+
+backtest:
+  n_windows: 5
+  step_size: null        # defaults to horizon
+
+selection:
+  calibration_tolerance: 0.125   # max deviation of empirical from nominal coverage
+  close_call_margin: 0.02        # flag for review if top-2 within this on decision loss
+  composite_weights:
+    accuracy: 0.60
+    robustness: 0.25
+    cost: 0.15
+
+zoo:
+  history_gates:
+    classical: 20
+    intermittent: 20
+    gbdt: 100
+    deep: 1000
+    foundation: 0     # zero-shot
+
+monitoring:
+  psi_threshold: 0.2
+  error_inflation_threshold: 1.15
+  calibration_tolerance: 0.10
+
+features:
+  lags: [1, 7, 28, 365]
+  rolling_windows: [7, 28, 90]
+  fourier_terms:
+    7.0: 3
+    365.25: 5

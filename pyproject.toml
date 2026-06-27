@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forecast-engine"
+version = "0.1.0"
+description = "Hybrid production forecasting engine — classical, GBDT, deep, and foundation models in one governed zoo, with an LLM operations layer."
+readme = "README.md"
+authors = [{ name = "Brian Curry", email = "brian@vector1.ai" }]
+requires-python = ">=3.10"
+
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scipy>=1.11",
+    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+# Each model family's heavy dependency is optional. The engine excludes
+# any family whose dependency is missing rather than failing.
+classical = ["statsforecast>=1.7"]
+gbdt = ["lightgbm>=4.0"]
+deep = ["neuralforecast>=1.7", "torch>=2.1"]
+foundation = ["chronos-forecasting>=1.2"]
+notebooks = ["jupyter>=1.0", "matplotlib>=3.8", "plotly>=5.18"]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "black>=23.12", "ruff>=0.1"]
+full = [
+    "statsforecast>=1.7", "lightgbm>=4.0", "neuralforecast>=1.7",
+    "torch>=2.1", "chronos-forecasting>=1.2",
+]
+
+[project.urls]
+Research = "https://vector1.ai"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["forecast_engine*"]
+
+[tool.black]
+line-length = 95
+target-version = ["py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 95
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=forecast_engine --cov-report=term-missing"
